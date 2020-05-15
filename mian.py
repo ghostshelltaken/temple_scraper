@@ -50,7 +50,10 @@ def get_temple_details(templeLinks):
 		except:
 			address = None
 
-		
+		try:
+			contat = soup.select('div.lfloat.info-contact.info-subsection div.threerow-div span')[0].getText()
+		except:
+			contat = None
 
 	
 
