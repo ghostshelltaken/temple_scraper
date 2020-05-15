@@ -23,9 +23,10 @@ def get_temple_links():
 	return temple_links
 
 
-
 def get_temple_details(templeLinks):
-
+	'''
+	This function crawls throught one by one to each temple and gathers details of each one.
+	'''
 	for link in templeLinks:
 
 		URL = rawURL + link
@@ -55,6 +56,18 @@ def get_temple_details(templeLinks):
 		except:
 			contat = None
 
+		try:
+			knwn_for = soup.select('div.popular-for-container div.who')
+		except:
+			knwn_for = None
+
+		popular_for = []
+
+		if knwn_for:
+			for i in knwn_for:
+				popular_for.append(i.getText().strip())
+		else:
+			popular_for = None
 	
 
 
