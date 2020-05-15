@@ -7,7 +7,7 @@ class Database:
 		self.cursor = None
 
 	def make_connection(self):
-		self.conn = sqlite3.connect('temples.db')
+		self.conn = sqlite3.connect('./temples.db')
 		self.cursor = self.conn.cursor()
 
 	def close_connection(self):
@@ -22,3 +22,6 @@ class Database:
 		result = self.cursor.fetchall()
 		self.conn.commit()
 		return result
+
+# a = Database()
+# a.make_connection()

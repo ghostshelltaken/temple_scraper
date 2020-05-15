@@ -71,18 +71,18 @@ def get_temple_details(templeLinks):
 		else:
 			popular_for = None
 
-		query = "INSERT INTO tample_details(temple_name, ratings, visit_durations, Address) values(?, ?, ?, ?)", (temple_name, rating, visit_duration, address)
+		query = "INSERT into temple_details(temple_name, ratings, visit_durations, Address) values(?, ?, ?, ?)", (temple_name, rating, visit_duration, address)
 
 		dbObj.make_connection()
 		dbObj.execute_query(query)
 		dbObj.close_connection()
 
-		query = 'SELECT temple_id FROM temple_details WHERE temple_name = ? AND ratings = ? AND Address = ? ', (temple_name, rating, address)
+		query = 'SELECT temple_id FROM temple_details WHERE temple_name = ? ORDER by temple_id DESC ', (temple_name, )
 
 		dbObj.make_connection()
 		data = dbObj.select_query(query)
 		dbObj.close_connection()
-
+		print(data)
 		temple_id = data[0][0]
 
 		query = "INSERT INTO contacts(temple_id, contact_no) VALUES(?, ?)", (temple_id, contat)
