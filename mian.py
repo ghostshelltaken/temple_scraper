@@ -29,6 +29,8 @@ def get_temple_details(templeLinks):
 	'''
 	for link in templeLinks:
 
+		dbObj = Database()
+
 		URL = rawURL + link
 
 		soup = soupObj(URL)
@@ -68,6 +70,14 @@ def get_temple_details(templeLinks):
 				popular_for.append(i.getText().strip())
 		else:
 			popular_for = None
+
+		query = "INSERT INTO tample_details(temple_name, ratings, visit_durations, Address) values(?, ?, ?, ?)", (temple_name, rating, visit_duration, address)
+
+		dbObj.make_connection()
+		dbObj.execute_query(query)
+		dbObj.close_connection()
+
+		query = 'SELECT temple_id FROM temple_details WHERE temple_name = ? AND ratings = ? AND Address = ? ', (temple_name, rating, address)
 	
 
 
