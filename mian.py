@@ -36,7 +36,7 @@ def get_temple_details(templeLinks):
 		soup = soupObj(URL)
 
 		temple_name = soup.select('div.section-description h2.title.sec-header span.city-name.poi-title')[0].getText()
-		print(temple_name)
+		# print(temple_name)
 
 		try:
 			rating = soup.select('div.ne-info div.rating-value')[0].getText()
@@ -78,8 +78,35 @@ def get_temple_details(templeLinks):
 		dbObj.close_connection()
 
 		query = 'SELECT temple_id FROM temple_details WHERE temple_name = ? AND ratings = ? AND Address = ? ', (temple_name, rating, address)
-	
 
+		dbObj.make_connection()
+		data = dbObj.select_query(query)
+		dbObj.close_connection()
+
+		temple_id = data[0][0]
+
+		query = "INSERT INTO contacts(temple_id, contact_no) VALUES(?, ?)", (temple_id, contat)
+
+		dbObj.make_connection()
+		dbObj.execute_query(query)
+		dbObj.close_connection()
+
+		if popular_for == None:
+			query = "INSERT INTO known_for(temple_id, popular_for) VALUES(?, ?)", (temple_id, popular_for)	
+
+			dbObj.make_connection()
+			dbObj.execute_query(query)
+			dbObj.close_connection()			
+
+		else:
+			for i in range(len(popular_for)):
+				query = "INSERT INTO known_for(temple_id, popular_for) VALUES(?, ?)", (temple_id, popular_for[i])	
+
+				dbObj.make_connection()
+				dbObj.execute_query(query)
+				dbObj.close_connection()
+
+		print(f"Scraped Data for {temple_name}")
 
 
 
